@@ -1,6 +1,7 @@
 import numpy as np
 import timeit
 import numpy.random as random
+from time import time
 
 # pre-construct a matrix in the namespace to use in tests
 random.seed(1651)
@@ -21,9 +22,19 @@ def basic_matvec(A, x):
 
     :return b: m-dimensional numpy array
     """
+    # b = np.dot(A,x)
+    # return b
+    m, n = np.shape(A)
+    b = np.zeros(m)
+    for i in range(m):
+        for j in range(n):
+            b[i] = A[i,j]*x[j]
+    
+    return b
 
     raise NotImplementedError
 
+basic_matvec(A0, x0)
 
 def column_matvec(A, x):
     """
@@ -39,27 +50,37 @@ def column_matvec(A, x):
 
     This should be implemented using a single loop over the entries of x
     """
+    m,n  = np.shape(A)
+    b = np.zeros(m)
+    for i in range(n):
+        b += sum(x[i]*A[:,i])
+    return print(b)
 
     raise NotImplementedError
 
+column_matvec(A0, x0)
 
 def timeable_basic_matvec():
     """
     Doing a matvec example with the basic_matvec that we can
     pass to timeit.
     """
-
+    ta = time()
     b = basic_matvec(A0, x0) # noqa
+    tb = time()
+    print(tb-ta)
 
+timeable_basic_matvec()
 
 def timeable_column_matvec():
     """
     Doing a matvec example with the column_matvec that we can
     pass to timeit.
     """
-
+    ta = time()
     b = column_matvec(A0, x0) # noqa
-
+    tb = time()
+    print(tb-ta)
 
 def timeable_numpy_matvec():
     """
